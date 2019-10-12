@@ -90,7 +90,7 @@ app.post('/api/delete', (req, res) => {
   });
 });
 
-const server = app.listen(80, () => {
+const server = app.listen(process.env.PORT || 1337, () => {
 
   const host = server.address().address;
   const port = server.address().port;
