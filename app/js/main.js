@@ -141,15 +141,39 @@ function addAndPostEvent(e) {
 function updateUI(events) {
   events.forEach(event => {
     const item =
-      `<li class="card">
+      `<li class="card" id="${event.id}">
          <div class="card-text">
            <h2>${event.title}</h2>
            <h4>${event.date}</h4>
            <h4>${event.city}</h4>
            <p>${event.note}</p>
+           <button type="button" id="delete_${event.id}" onclick="deleteEvent(${event.id})">Delete</button>
          </div>
        </li>`;
     container.insertAdjacentHTML('beforeend', item);
+  });
+}
+
+function deleteEvent(id) {
+  const headers = new Headers({'Content-Type': 'application/json'});
+  const body = JSON.stringify({id: id});
+  return fetch('api/delete', {
+    method: 'POST',
+    headers: headers,
+    body: body
+  }).then(response => deleteLocalEvent(id)).then(response => removeEventFromUI(id));
+}
+
+function removeEventFromUI(id) {
+  container.removeChild(document.getElementById(id));
+}
+
+function deleteLocalEvent(id) {
+  if (!('indexedDB' in window)) {return null;}
+  return dbPromise.then(db => {
+    const tx = db.transaction('events', 'readwrite');
+    const store = tx.objectStore('events');
+    return store.delete(id);
   });
 }
 

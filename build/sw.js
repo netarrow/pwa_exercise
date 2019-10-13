@@ -28,7 +28,7 @@ if (workbox) {
   },
   {
     "url": "index.html",
-    "revision": "91b01f0c222d387058962fd7c4e78175"
+    "revision": "5747f1d60313905aa35ced08f44cee9e"
   },
   {
     "url": "js/idb-promised.js",
@@ -36,7 +36,7 @@ if (workbox) {
   },
   {
     "url": "js/main.js",
-    "revision": "997ac795a605afc289e24a4025d7d379"
+    "revision": "4144aeb0ed80b52980f8ab5caa6d6e84"
   },
   {
     "url": "images/profile/cat.jpg",
