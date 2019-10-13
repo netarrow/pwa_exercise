@@ -48,6 +48,13 @@ if (workbox) {
     networkWithBackgroundSync,
     "POST"
   );
+
+  workbox.routing.registerRoute(
+    /\/api\/delete/,
+    networkWithBackgroundSync,
+    "POST"
+  );
+
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
 }

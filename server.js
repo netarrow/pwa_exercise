@@ -69,6 +69,7 @@ app.post('/api/add', (req, res) => {
 app.post('/api/delete', (req, res) => {
   let jsonFile = __dirname + '/server-data/events.json';
   let id = req.body.id;
+  console.log('Deleting event with id:', id);
   fs.readFile(jsonFile, (err, data) => {
     if (err) {
       res.sendStatus(500);

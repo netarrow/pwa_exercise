@@ -36,7 +36,7 @@ if (workbox) {
   },
   {
     "url": "js/main.js",
-    "revision": "4144aeb0ed80b52980f8ab5caa6d6e84"
+    "revision": "82f605b5fa897e417b7f0c4464ba2e9f"
   },
   {
     "url": "images/profile/cat.jpg",
@@ -93,6 +93,13 @@ if (workbox) {
     networkWithBackgroundSync,
     "POST"
   );
+
+  workbox.routing.registerRoute(
+    /\/api\/delete/,
+    networkWithBackgroundSync,
+    "POST"
+  );
+
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
 }

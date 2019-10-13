@@ -155,13 +155,17 @@ function updateUI(events) {
 }
 
 function deleteEvent(id) {
-  const headers = new Headers({'Content-Type': 'application/json'});
-  const body = JSON.stringify({id: id});
-  return fetch('api/delete', {
-    method: 'POST',
-    headers: headers,
-    body: body
-  }).then(response => deleteLocalEvent(id)).then(response => removeEventFromUI(id));
+  deleteLocalEvent(id)
+        .then(response => removeEventFromUI(id))
+        .then(response => {
+          const headers = new Headers({'Content-Type': 'application/json'});
+          const body = JSON.stringify({id: id});
+              return fetch('api/delete', {
+                method: 'POST',
+                headers: headers,
+                body: body
+              })
+        });
 }
 
 function removeEventFromUI(id) {

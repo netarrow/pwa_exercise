@@ -61,19 +61,5 @@
     "date": "2018-12-16",
     "city": "Bålsta",
     "note": "vel enim sit amet nunc viverra dapibus nulla suscipit ligula in lacus curabitur at ipsum ac tellus semper"
-  },
-  {
-    "id": 1501798956823,
-    "title": "Andalax",
-    "date": "2019-03-19",
-    "city": "Limbi",
-    "note": "quam suspendisse potenti nullam porttitor lacus at turpis donec posuere metus vitae ipsum aliquam non mauris morbi"
-  },
-  {
-    "id": 1570961711076,
-    "title": "qq",
-    "date": "2019-10-18",
-    "city": "test",
-    "note": "test"
   }
 ]
