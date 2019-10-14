@@ -36,7 +36,7 @@ if (workbox) {
   },
   {
     "url": "js/main.js",
-    "revision": "cdf354f5d8c9ea4d5d603430589872bf"
+    "revision": "3db530b2da2220695aba9e5842f5d819"
   },
   {
     "url": "images/profile/cat.jpg",
@@ -69,9 +69,11 @@ if (workbox) {
 ]);
 
   const showNotification = () => {
-    self.registration.showNotification('Background sync success!', {
-      body: '🎉`🎉`🎉`'
-    });
+      if(self.registration.showNotification) {
+      self.registration.showNotification('Background sync success!', {
+        body: '🎉`🎉`🎉`'
+      });
+    }
   };
 
   const bgSyncPlugin = new workbox.backgroundSync.Plugin(

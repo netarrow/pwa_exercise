@@ -38,7 +38,8 @@ const addEventButton = document.getElementById('add-event-button');
 
 addEventButton.addEventListener('click', addAndPostEvent);
 
-Notification.requestPermission();
+if(Notification)
+  Notification.requestPermission();
 
 // TODO - create indexedDB database
 
