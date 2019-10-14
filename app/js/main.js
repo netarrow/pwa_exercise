@@ -29,6 +29,7 @@ if ('serviceWorker' in navigator) {
 }
 
 const container = document.getElementById('container');
+const containerPendingRequest = document.getElementById('containerPendingRequest');
 const offlineMessage = document.getElementById('offline');
 const noDataMessage = document.getElementById('no-data');
 const dataSavedMessage = document.getElementById('data-saved');
@@ -37,7 +38,8 @@ const addEventButton = document.getElementById('add-event-button');
 
 addEventButton.addEventListener('click', addAndPostEvent);
 
-Notification.requestPermission();
+if(Notification)
+  Notification.requestPermission();
 
 // TODO - create indexedDB database
 
@@ -72,6 +74,15 @@ function getLocalEventData() {
   return dbPromise.then(db => {
     const tx = db.transaction('events', 'readonly');
     const store = tx.objectStore('events');
+    return store.getAll();
+  });
+}
+
+function getPendingData() {
+  if (!('indexedDB' in window)) {return null;}
+  return dbPromise.then(db => {
+    const tx = db.transaction('requests', 'readonly');
+    const store = tx.objectStore('requests');
     return store.getAll();
   });
 }
@@ -152,6 +163,9 @@ function updateUI(events) {
        </li>`;
     container.insertAdjacentHTML('beforeend', item);
   });
+
+  getPendingData().then(requests => containerPendingRequest.insertAdjacentText(JSON.stringify(requests)));
+
 }
 
 function deleteEvent(id) {

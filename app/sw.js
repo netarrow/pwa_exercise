@@ -24,9 +24,11 @@ if (workbox) {
   workbox.precaching.precacheAndRoute([]);
 
   const showNotification = () => {
-    self.registration.showNotification('Background sync success!', {
-      body: '🎉`🎉`🎉`'
-    });
+      if(self.registration.showNotification) {
+      self.registration.showNotification('Background sync success!', {
+        body: '🎉`🎉`🎉`'
+      });
+    }
   };
 
   const bgSyncPlugin = new workbox.backgroundSync.Plugin(
