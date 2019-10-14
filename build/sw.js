@@ -28,7 +28,7 @@ if (workbox) {
   },
   {
     "url": "index.html",
-    "revision": "76a532928e47b3e076d5f9be08bbbe75"
+    "revision": "39080826c138865ce7b4de70223b23c4"
   },
   {
     "url": "js/idb-promised.js",
@@ -36,7 +36,7 @@ if (workbox) {
   },
   {
     "url": "js/main.js",
-    "revision": "cf5c6c853592b5cde11a2b262127b0ea"
+    "revision": "4af0164eb55bf00635b87fdbc955c36e"
   },
   {
     "url": "images/profile/cat.jpg",
@@ -76,18 +76,14 @@ if (workbox) {
     }
   };
 
-  const bgSyncPlugin = new workbox.backgroundSync.Plugin(
-  'dashboardr-queue',
-  {
-    callbacks: {
-      queueDidReplay: showNotification
-      // other types of callbacks could go here
-    }
-  }
-);
+  const queue = new workbox.backgroundSync.Queue('requests');
 
   const networkWithBackgroundSync = new workbox.strategies.NetworkOnly({
-    plugins: [bgSyncPlugin]
+    plugins: [{
+      fetchDidFail: async ({request}) => {
+        await queue.addRequest(request);
+      },
+    }],
   });
 
   workbox.routing.registerRoute(
@@ -101,6 +97,13 @@ if (workbox) {
     networkWithBackgroundSync,
     "POST"
   );
+
+  self.addEventListener('message', (event) => {
+    if (event.data === 'sync') {
+      console.log("sync data");
+      queue.replayRequests();
+    }
+  });
 
 } else {
   console.log(`Boo! Workbox didn't load 😬`);

@@ -31,18 +31,14 @@ if (workbox) {
     }
   };
 
-  const bgSyncPlugin = new workbox.backgroundSync.Plugin(
-  'dashboardr-queue',
-  {
-    callbacks: {
-      queueDidReplay: showNotification
-      // other types of callbacks could go here
-    }
-  }
-);
+  const queue = new workbox.backgroundSync.Queue('requests');
 
   const networkWithBackgroundSync = new workbox.strategies.NetworkOnly({
-    plugins: [bgSyncPlugin]
+    plugins: [{
+      fetchDidFail: async ({request}) => {
+        await queue.addRequest(request);
+      },
+    }],
   });
 
   workbox.routing.registerRoute(
@@ -56,6 +52,13 @@ if (workbox) {
     networkWithBackgroundSync,
     "POST"
   );
+
+  self.addEventListener('message', (event) => {
+    if (event.data === 'sync') {
+      console.log("sync data");
+      queue.replayRequests();
+    }
+  });
 
 } else {
   console.log(`Boo! Workbox didn't load 😬`);

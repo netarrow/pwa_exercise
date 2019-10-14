@@ -52,7 +52,13 @@ function createIndexedDB() {
   });
 }
 
+function openRequestDb() {
+  if (!('indexedDB' in window)) {return null;}
+    return idb.open('workbox-background-sync', 1, function(upgradeDb) {});
+}
+
 const dbPromise = createIndexedDB();
+const requestDb = openRequestDb();
 
 loadContentNetworkFirst();
 
@@ -80,7 +86,7 @@ function getLocalEventData() {
 
 function getPendingData() {
   if (!('indexedDB' in window)) {return null;}
-  return dbPromise.then(db => {
+  return requestDb.then(db => {
     const tx = db.transaction('requests', 'readonly');
     const store = tx.objectStore('requests');
     return store.getAll();
@@ -164,8 +170,13 @@ function updateUI(events) {
     container.insertAdjacentHTML('beforeend', item);
   });
 
- // getPendingData().then(requests => containerPendingRequest.insertAdjacentText(JSON.stringify(requests)));
+ getPendingData().then(requests => containerPendingRequest.insertAdjacentText('beforeend', JSON.stringify(requests, null,)));
 
+}
+
+function sync() {
+  console.log("cliccato sync");
+    navigator.serviceWorker.controller.postMessage("sync");
 }
 
 function deleteEvent(id) {
