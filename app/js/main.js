@@ -164,7 +164,7 @@ function updateUI(events) {
     container.insertAdjacentHTML('beforeend', item);
   });
 
-  getPendingData().then(requests => containerPendingRequest.insertAdjacentText(JSON.stringify(requests)));
+ // getPendingData().then(requests => containerPendingRequest.insertAdjacentText(JSON.stringify(requests)));
 
 }
 

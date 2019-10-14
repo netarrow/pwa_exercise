@@ -38,7 +38,7 @@ const addEventButton = document.getElementById('add-event-button');
 
 addEventButton.addEventListener('click', addAndPostEvent);
 
-if(Notification)
+if(typeof Notification !== 'undefined')
   Notification.requestPermission();
 
 // TODO - create indexedDB database
@@ -164,7 +164,7 @@ function updateUI(events) {
     container.insertAdjacentHTML('beforeend', item);
   });
 
-  getPendingData().then(requests => containerPendingRequest.insertAdjacentText(JSON.stringify(requests)));
+ // getPendingData().then(requests => containerPendingRequest.insertAdjacentText(JSON.stringify(requests)));
 
 }
 
