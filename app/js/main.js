@@ -52,13 +52,22 @@ function createIndexedDB() {
   });
 }
 
+function createRequestsDB() {
+  if (!('indexedDB' in window)) {return null;}
+  return idb.open('workbox-background-sync', 1, function(upgradeDb) {
+    if (!upgradeDb.objectStoreNames.contains('requests')) {
+      const eventsOS = upgradeDb.createObjectStore('requests', {keyPath: 'id'});
+    }
+  });
+}
+
 function openRequestDb() {
   if (!('indexedDB' in window)) {return null;}
     return idb.open('workbox-background-sync', 1, function(upgradeDb) {});
 }
 
 const dbPromise = createIndexedDB();
-const requestDb = openRequestDb();
+const requestDb = createRequestsDB();
 
 loadContentNetworkFirst();
 
