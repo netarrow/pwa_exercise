@@ -36,7 +36,7 @@ if (workbox) {
   },
   {
     "url": "js/main.js",
-    "revision": "e32693b6af6f99e31239734c3d7cfad5"
+    "revision": "0911441191f1b0a66a86b9cadccceeba"
   },
   {
     "url": "images/profile/cat.jpg",

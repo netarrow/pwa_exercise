@@ -52,22 +52,13 @@ function createIndexedDB() {
   });
 }
 
-function createRequestsDB() {
-  if (!('indexedDB' in window)) {return null;}
-  return idb.open('workbox-background-sync', 1, function(upgradeDb) {
-    if (!upgradeDb.objectStoreNames.contains('requests')) {
-      const eventsOS = upgradeDb.createObjectStore('requests', {keyPath: 'queueName'});
-    }
-  });
-}
-
 function openRequestDb() {
   if (!('indexedDB' in window)) {return null;}
     return idb.open('workbox-background-sync', 1, function(upgradeDb) {});
 }
 
 const dbPromise = createIndexedDB();
-const requestDb = createRequestsDB();
+const requestDb = openRequestDb();
 
 loadContentNetworkFirst();
 
@@ -96,9 +87,14 @@ function getLocalEventData() {
 function getPendingData() {
   if (!('indexedDB' in window)) {return null;}
   return requestDb.then(db => {
-    const tx = db.transaction('requests', 'readonly');
-    const store = tx.objectStore('requests');
+    try {
+      const tx = db.transaction('requests', 'readonly');
+      const store = tx.objectStore('requests');
     return store.getAll();
+    } catch(error) {
+      console.log('no request db found found' + error);
+      return [];
+    }
   });
 }
 
