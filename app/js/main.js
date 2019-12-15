@@ -56,7 +56,7 @@ function createRequestsDB() {
   if (!('indexedDB' in window)) {return null;}
   return idb.open('workbox-background-sync', 1, function(upgradeDb) {
     if (!upgradeDb.objectStoreNames.contains('requests')) {
-      const eventsOS = upgradeDb.createObjectStore('requests', {keyPath: 'id'});
+      const eventsOS = upgradeDb.createObjectStore('requests');
     }
   });
 }
