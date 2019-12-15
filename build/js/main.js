@@ -67,7 +67,7 @@ function openRequestDb() {
 }
 
 const dbPromise = createIndexedDB();
-const requestDb = openRequestDb(); //createRequestsDB();
+const requestDb = createRequestsDB();
 
 loadContentNetworkFirst();
 
